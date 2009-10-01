@@ -1,4 +1,4 @@
-package org.rawyler.taxactors.model
+package org.rawyler.taxactors.models
 
 trait Payable {
   var payed = false

@@ -1,8 +1,8 @@
 package org.rawyler.taxactors.actors
 
 import scala.actors._
-import model.TaxReturn
-import model.TaxInvoice
+import models.TaxReturn
+import models.TaxInvoice
 
 class Computer extends Actor {
   
