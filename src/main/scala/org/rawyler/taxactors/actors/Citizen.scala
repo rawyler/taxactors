@@ -24,16 +24,14 @@ class Citizen(name: String, salary: Double) extends Actor with TaxPayer {
         
         act()
         
-      case (taxInvoice: TaxInvoice, actor: Actor) =>
+      case (taxInvoice: TaxInvoice, administration: Actor) =>
         // ouch
         taxInvoice.pay
         
-        actor ! (taxInvoice, this)
-        
-        // quit
-      case msg =>
-        println("no match with " + msg)
+        administration ! (taxInvoice, this)
     }
     
   }
+  
+  start
 }

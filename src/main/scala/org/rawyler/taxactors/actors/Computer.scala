@@ -8,10 +8,12 @@ class Computer extends Actor {
   
   def act () {
     react {
-      case (taxReturn: TaxReturn, actor: Actor) =>
-        val result = new TaxInvoice(taxReturn.income * 0.1)
+      case (taxReturn: TaxReturn, administration: Actor) =>
+        taxReturn.taxInvoice = new TaxInvoice(taxReturn.income * 0.1)
         
-        actor ! result
+        administration ! taxReturn
     }
   }
+  
+  start
 }

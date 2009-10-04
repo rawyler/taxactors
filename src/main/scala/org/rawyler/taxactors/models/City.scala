@@ -11,11 +11,7 @@ object City {
     } yield new Citizen(i.toString, (Math.random * 60000 + 40000).ceil)
   
   def main(args: Array[String]) {
-    TaxAdministration.start
-    
     val citizensArray = citizens.toArray
-    
-    citizensArray.foreach(_.start)
     
     TaxAdministration ! citizensArray
   }
