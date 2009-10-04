@@ -2,6 +2,8 @@ package org.rawyler.taxactors.actors
 
 trait TaxPayer {
 	def doTaxes() {
-	  Thread.sleep((Math.random * 5000).toLong)
+	  // println(this + " sleeping")
+	  Thread.sleep((Math.random * 3000).toLong)
+	  // println(this + " continue")
 	}
 }

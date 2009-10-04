@@ -2,6 +2,6 @@ package org.rawyler.taxactors.models
 
 import actors.Citizen
 
-class TaxInvoice(amount: Double) extends Payable {
+class TaxInvoice(val amount: Double) extends Payable {
   override def toString = amount.toString
 }

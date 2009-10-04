@@ -1,19 +1,22 @@
 package org.rawyler.taxactors.actors
 
 import scala.actors._
+import scala.actors.Actor._
 import models.TaxReturn
 import models.TaxInvoice
 
 class Clerk extends Actor {
   
   def act () {
-    react {
-      case (taxReturn: TaxReturn, actor: Actor) =>
-        Thread.sleep((Math.random * 3000).toLong)
+    loop {
+      react {
+        case (taxReturn: TaxReturn, administration: Actor) =>
+          Thread.sleep((Math.random * 3000).toLong)
+          
+          taxReturn.taxInvoice = new TaxInvoice(taxReturn.income * 0.15)
         
-        val result = new TaxInvoice(taxReturn.income * 0.15)
-        
-        actor ! result
+          administration ! taxReturn
+      }
     }
   }
   

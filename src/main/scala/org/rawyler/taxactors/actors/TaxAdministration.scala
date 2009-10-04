@@ -4,6 +4,7 @@ import scala.actors._
 import scala.actors.Actor._
 import models.TaxReturn
 import models.TaxInvoice
+import scala.collection.mutable.Map
 
 object TaxAdministration extends Actor{
   val clerks: List[Clerk] = for (i <- (1 to 10).toList)
@@ -12,14 +13,18 @@ object TaxAdministration extends Actor{
   val computers: List[Computer] = for (i <- (1 to 5).toList)
     yield new Computer()
   
-  var simpleCheckSum = 0
-
+  private val citizenCache = Map.empty[String, Citizen]
+  
   def act(){
     loop {
       react {
         case citizens: Array[Citizen] =>
           println("processing " + citizens.size + " citizens")
-          simpleCheckSum = citizens.size
+          
+          citizenCache ++ (for {
+            c <- citizens
+          } yield (c.name -> c))
+          
           citizens.foreach(c => c ! (new TaxReturn(c, null), this))
         
         case (taxReturn: TaxReturn, citizen: Actor) =>
@@ -29,7 +34,13 @@ object TaxAdministration extends Actor{
           taxReturn.citizen ! (taxReturn.taxInvoice, this)
           
         case (taxInvoice: TaxInvoice, citizen: Citizen) =>
-          if(taxInvoice.payed) simpleCheckSum -= 1
+          
+          if(taxInvoice.payed) citizenCache - (citizen.name)
+          
+          if(citizenCache.isEmpty) {
+            println("done")
+            exit
+          }
         
       }
     }

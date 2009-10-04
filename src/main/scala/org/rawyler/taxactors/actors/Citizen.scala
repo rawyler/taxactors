@@ -1,37 +1,42 @@
 package org.rawyler.taxactors.actors
 
 import scala.actors._
+import scala.actors.Actor._
 import models.TaxReturn
 import models.TaxInvoice
 
-class Citizen(name: String, salary: Double) extends Actor with TaxPayer {
+class Citizen(val name: String, val salary: Double) extends Actor with TaxPayer {
   
   def act() {
     
-    react {
-      case (taxReturn: TaxReturn, actor: Actor) =>
-	    println(name + " started")
+    loop {
+      react {
+        case (taxReturn: TaxReturn, administration: Actor) =>
+	      // println(this + " started")
         
-	    doTaxes
+	      doTaxes
      
-        taxReturn.income = salary
+          taxReturn.income = salary
         
-        taxReturn.sign
+          taxReturn.sign
         
-        println (name + " got " + taxReturn)
+          // println (name + " got " + taxReturn)
         
-        actor ! (taxReturn, this)
+          administration ! (taxReturn, this)
         
-        act()
+        case (taxInvoice: TaxInvoice, administration: Actor) =>
+          // ouch
+          taxInvoice.pay
+          
+          // println(this + " payed my taxes")
         
-      case (taxInvoice: TaxInvoice, administration: Actor) =>
-        // ouch
-        taxInvoice.pay
-        
-        administration ! (taxInvoice, this)
+          administration ! (taxInvoice, this)
+      }
     }
     
   }
+  
+  override def toString = name
   
   start
 }
