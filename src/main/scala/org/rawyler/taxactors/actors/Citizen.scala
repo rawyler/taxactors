@@ -31,6 +31,8 @@ class Citizen(val name: String, val salary: Double) extends Actor with TaxPayer 
           println(this + " payed my taxes")
         
           administration ! (taxInvoice, this)
+          
+          exit()
       }
     }
     
@@ -38,5 +40,5 @@ class Citizen(val name: String, val salary: Double) extends Actor with TaxPayer 
   
   override def toString = name
   
-  start
+  start()
 }

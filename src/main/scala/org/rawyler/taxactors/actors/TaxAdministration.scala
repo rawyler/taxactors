@@ -6,7 +6,9 @@ import models.TaxReturn
 import models.TaxInvoice
 import scala.collection.mutable.Map
 
-object TaxAdministration extends Actor{
+object TaxAdministration extends Actor {
+  case object Stop
+  
   val clerks: List[Clerk] = for (i <- (1 to 10).toList)
     yield new Clerk()
   
@@ -39,7 +41,13 @@ object TaxAdministration extends Actor{
           
           if(citizenCache.isEmpty) {
             println("done")
-            exit
+            
+            val workers = clerks ::: computers
+            workers.foreach(_ ! Stop)
+            
+            WorkDispatcher ! Stop
+            
+            exit()
           }
         
       }
@@ -47,5 +55,5 @@ object TaxAdministration extends Actor{
     
   }
   
-  start
+  start()
 }
