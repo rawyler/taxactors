@@ -12,7 +12,7 @@ class Citizen(val name: String, val salary: Double) extends Actor with TaxPayer 
     loop {
       react {
         case (taxReturn: TaxReturn, administration: Actor) =>
-	      // println(this + " started")
+	      println(this + " started")
         
 	      doTaxes
      
@@ -28,7 +28,7 @@ class Citizen(val name: String, val salary: Double) extends Actor with TaxPayer 
           // ouch
           taxInvoice.pay
           
-          // println(this + " payed my taxes")
+          println(this + " payed my taxes")
         
           administration ! (taxInvoice, this)
       }
