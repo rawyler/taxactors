@@ -8,4 +8,6 @@ import TaxAdministration._
 
 class Clerk extends CalculatingTaxes {
   override val factor = 0.15
+  
+  override val sleepTime = 3000
 }

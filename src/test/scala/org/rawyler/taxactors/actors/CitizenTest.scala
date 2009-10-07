@@ -3,7 +3,7 @@ package org.rawyler.taxactors.actors
 import _root_.junit.framework.TestSuite
 import _root_.org.junit.Test
 
-class CitizenTest {
+class CitizenTest extends TestSuite {
   
   @Test def testEquality() {
     val foo = new Citizen("foo", 100000)

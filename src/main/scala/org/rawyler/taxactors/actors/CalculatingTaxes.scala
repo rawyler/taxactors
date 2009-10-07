@@ -9,11 +9,13 @@ import TaxAdministration._
 trait CalculatingTaxes extends Actor {
   val factor = 0.1
   
+  val sleepTime = 0
+  
   def act () {
     loop {
       react {
         case (taxReturn: TaxReturn, administration: Actor) =>
-          Thread.sleep((Math.random * 3000).toLong)
+          Thread.sleep((Math.random * sleepTime).toLong)
           
           taxReturn.taxInvoice = new TaxInvoice(taxReturn.income * factor)
         
