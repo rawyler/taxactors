@@ -6,6 +6,7 @@ import models.TaxReturn
 import models.TaxInvoice
 
 class Citizen(val name: String, val salary: Double) extends Actor with TaxPayer {
+  require(name != "")
   
   def act() {
     
@@ -39,6 +40,25 @@ class Citizen(val name: String, val salary: Double) extends Actor with TaxPayer 
   }
   
   override def toString = name
+  
+  override def equals(other: Any): Boolean = 
+    other match {
+      
+      case that: Citizen =>
+        (that canEqual this) &&
+        name == that.name &&
+        salary == that.salary
+        
+      case _ => false
+    }
+  
+  def canEqual(other: Any): Boolean =
+    other.isInstanceOf[Citizen]
+  
+  override def hashCode: Int =
+    41 * (
+      41 + name.hashCode
+    ) + salary.hashCode
   
   start()
 }
