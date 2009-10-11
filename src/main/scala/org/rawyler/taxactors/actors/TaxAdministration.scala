@@ -16,6 +16,8 @@ object TaxAdministration extends Actor {
     yield new Computer()
   
   private val citizenCache = Map.empty[String, Citizen]
+    
+  start()
   
   def act() {
     loop {
@@ -40,10 +42,10 @@ object TaxAdministration extends Actor {
           if(taxInvoice.payed) citizenCache - (citizen.name)
           
           if(citizenCache.isEmpty) {
+            // everyone has payed
             println("done")
             
-            val workers = clerks ::: computers
-            workers.foreach(_ ! Stop)
+            (clerks ::: computers).foreach(_ ! Stop)
             
             WorkDispatcher ! Stop
             
@@ -54,6 +56,5 @@ object TaxAdministration extends Actor {
     }
     
   }
-  
-  start()
+
 }

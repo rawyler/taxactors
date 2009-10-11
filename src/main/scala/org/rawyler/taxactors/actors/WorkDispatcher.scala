@@ -6,7 +6,11 @@ import models.TaxReturn
 import TaxAdministration._
 
 object WorkDispatcher extends Actor {
+    
+  start()
+  
   def act() {
+    
     loop {
       react {
         case Stop =>
@@ -20,6 +24,7 @@ object WorkDispatcher extends Actor {
 
       }
     }
+    
   }
   
   def pickRandomOfPool: Actor = {
@@ -31,6 +36,5 @@ object WorkDispatcher extends Actor {
     
     list((Math.random * list.size).toInt)
   }
-  
-  start()
+
 }

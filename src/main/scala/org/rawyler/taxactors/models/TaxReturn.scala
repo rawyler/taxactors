@@ -8,4 +8,5 @@ class TaxReturn(val citizen: Citizen, var taxInvoice: TaxInvoice) extends Signab
   override def toString = {
     income.toString + " " + signed.toString + " " + taxInvoice
   }
+
 }

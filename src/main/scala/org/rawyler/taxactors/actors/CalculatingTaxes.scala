@@ -11,21 +11,23 @@ trait CalculatingTaxes extends Actor {
   
   val sleepTime = 0
   
+  start()
+  
   def act () {
     loop {
       react {
+        case Stop =>
+          exit()
+          
         case (taxReturn: TaxReturn, administration: Actor) =>
           Thread.sleep((Math.random * sleepTime).toLong)
           
           taxReturn.taxInvoice = new TaxInvoice(taxReturn.income * factor)
         
           administration ! taxReturn
-          
-        case Stop =>
-          exit()
+
       }
     }
   }
   
-  start()
 }
