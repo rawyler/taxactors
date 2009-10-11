@@ -17,7 +17,7 @@ object TaxAdministration extends Actor {
   
   private val citizenCache = Map.empty[String, Citizen]
   
-  def act(){
+  def act() {
     loop {
       react {
         case citizens: Array[Citizen] =>

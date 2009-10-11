@@ -8,12 +8,14 @@ import models.TaxInvoice
 class Citizen(val name: String, val salary: Double) extends Actor with TaxPayer {
   require(name != "")
   
+  start()
+  
   def act() {
     
     loop {
       react {
         case (taxReturn: TaxReturn, administration: Actor) =>
-	      println(this + " started")
+	      println(this + " received TaxReturn")
         
 	      doTaxes
      
@@ -24,6 +26,8 @@ class Citizen(val name: String, val salary: Double) extends Actor with TaxPayer 
           // println (name + " got " + taxReturn)
         
           administration ! (taxReturn, this)
+          
+          println(this + " sent TaxReturn")
         
         case (taxInvoice: TaxInvoice, administration: Actor) =>
           // ouch
@@ -43,13 +47,13 @@ class Citizen(val name: String, val salary: Double) extends Actor with TaxPayer 
   
   override def equals(other: Any): Boolean = 
     other match {
-      
       case that: Citizen =>
         (that canEqual this) &&
         name == that.name &&
         salary == that.salary
         
       case _ => false
+      
     }
   
   def canEqual(other: Any): Boolean =
@@ -59,6 +63,5 @@ class Citizen(val name: String, val salary: Double) extends Actor with TaxPayer 
     41 * (
       41 + name.hashCode
     ) + salary.hashCode
-  
-  start()
+
 }
