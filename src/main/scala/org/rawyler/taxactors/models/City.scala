@@ -5,11 +5,11 @@ import actors.TaxAdministration
 
 object City {
   
-  final val BaseSalary = 40000
+  val BaseSalary = 40000
   
-  final val PlusSalary = 60000
+  val PlusSalary = 60000
   
-  final val Population = 10
+  val Population = 10
   
   def citizens(): Seq[Citizen] =
     for {
